@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+
+  # mongo:
+  #   hostname: mongo_unifi
+  #   image: danielcoman/mongo-rpi:latest
+  #   volumes:
+  #     - mongodbdata:/data/db
+  #   ports:
+  #     - 27017
+  #   environment:
+  #     - TYPE=mongo
+  #     - AUTH=yes
+  #     - MONGODB_ADMIN_USER=mongoadmin
+  #     - MONGODB_ADMIN_PASS=wDgR9fHQH9mA8fW9
+  #     - MONGODB_APPLICATION_DATABASE=unifi
+  #     - MONGODB_APPLICATION_USER=unifi
+  #     - MONGODB_APPLICATION_PASS=wDgR9fHQH9mA8fW9
+  #     # - MONGO_INITDB_ROOT_USERNAME=admin
+  #     # - MONGO_INITDB_ROOT_PASSWORD=wDgR9fHQH9mA8fW9
+  #   networks:
+  #     - unifi
+
+  unifi:
+    image: danielcoman/unifi-rpi:latest
+    command: ["start"]
+    volumes:
+      - config:/var/lib/unifi
+    ports:
+      - "3478:3478/udp"
+      - "8080:8080/tcp"
+      - "8443:8443/tcp"
+      - "6789:6789/tcp"
+      - "10001:10001/udp"
+      - "1900:1900/udp"
+    environment:
+      TYPE: unifi
+    networks:
+      - unifi
+    # depends_on:
+    #   - mongo
+
+volumes:
+  config:
+
+networks:
+  unifi:

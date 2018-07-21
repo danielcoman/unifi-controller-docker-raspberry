@@ -12,3 +12,7 @@ Run:
 ```
 sudo docker-compose up -d
 ```
+
+
+# Ports
+https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used

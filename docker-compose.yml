@@ -1,34 +1,11 @@
 version: '3.3'
 services:
 
-  # mongo:
-  #   hostname: mongo_unifi
-  #   image: danielcoman/mongo-rpi:latest
-  #   volumes:
-  #     - mongodbdata:/data/db
-  #   ports:
-  #     - 27017
-  #   environment:
-  #     - TYPE=mongo
-  #     - AUTH=yes
-  #     - MONGODB_ADMIN_USER=mongoadmin
-  #     - MONGODB_ADMIN_PASS=wDgR9fHQH9mA8fW9
-  #     - MONGODB_APPLICATION_DATABASE=unifi
-  #     - MONGODB_APPLICATION_USER=unifi
-  #     - MONGODB_APPLICATION_PASS=wDgR9fHQH9mA8fW9
-  #     # - MONGO_INITDB_ROOT_USERNAME=admin
-  #     # - MONGO_INITDB_ROOT_PASSWORD=wDgR9fHQH9mA8fW9
-  #   networks:
-  #     - backend
-
   unifi:
     image: danielcoman/unifi-rpi:latest
     command: ["start"]
     volumes:
       - config:/var/lib/unifi
-      - log:/usr/lib/unifi/logs
-      - run:/usr/lib/unifi/run
-      - work:/usr/lib/unifi/work
     ports:
       - "3478:3478/udp"
       - "8080:8080/tcp"
@@ -36,31 +13,13 @@ services:
       - "6789:6789/tcp"
       - "10001:10001/udp"
       - "1900:1900/udp"
-    # depends_on:
-      # - backend
-      # - mongo
     environment:
       TYPE: unifi
     networks:
-      # - backend
       - unifi
-    # depends_on:
-    #   - mongo
 
 volumes:
   config:
-  log:
-  run:
-  work:
-  mongodbdata:
 
 networks:
   unifi:
-  # backend:
-  #   driver: bridge
-  #   attachable: false
-  #   ipam:
-  #     config:
-  #       - subnet: 172.10.0.0/16
-  # driver: host
-  # attachable: true
