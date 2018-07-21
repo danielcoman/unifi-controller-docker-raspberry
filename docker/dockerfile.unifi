@@ -7,8 +7,6 @@ ENV UNIFI_VERSION="5.8.24"
 
 RUN apt-get update -y && apt-get install --no-install-recommends -y oracle-java8-jdk jsvc mongodb-server binutils unzip wget
 
-COPY system.properties /usr/lib/unifi/data/system.properties
-
 RUN mkdir -p /tmp/build && \
     cd /tmp/build && \
     wget -q http://dl.ubnt.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb && \
@@ -16,13 +14,17 @@ RUN mkdir -p /tmp/build && \
     apt-get install -f && \
     rm -rf /var/lib/apt/lists/*
 
+# COPY system.properties /usr/lib/unifi/data/system.properties
+
 # 3478 STUN ; 8080 COM ; 8443 GUI/API ; 8843 portal ; 6789 speed test ; 10001 UDP AP discovery ; 1900 L2 discovery
 # 8843 # if using Guest Portal from remote locations
 # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
 EXPOSE 3478/udp 8080/tcp 8443/tcp 6789/tcp 10001/udp 1900/udp
 
-USER unifi
+RUN ln -s /var/lib/unifi /usr/lib/unifi/data
+WORKDIR /var/lib/unifi
 
-#VOLUME /usr/lib/unifi/data
-#WORKDIR /usr/lib/unifi
-#CMD ["java", "-Xmx256M", "-jar", "/usr/lib/unifi/lib/ace.jar", "start"]
+# USER unifi
+
+ENTRYPOINT ["/usr/bin/java", "-Xmx512M", "-jar", "/usr/lib/unifi/lib/ace.jar"]
+CMD ["start"]
