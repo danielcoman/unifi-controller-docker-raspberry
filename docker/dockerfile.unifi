@@ -1,0 +1,26 @@
+FROM danielcoman/base-rpi:latest
+
+RUN groupadd -r unifi && useradd -r -g unifi unifi
+
+ENV UNIFI_VERSION="5.8.24"
+
+RUN apt update && apt install -y oracle-java8-jdk unzip wget && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY system.properties /usr/lib/unifi/data/system.properties
+
+RUN mkdir -p /tmp/build && \
+    cd /tmp/build && \
+    wget -q http://dl.ubnt.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb && \
+    dpkg --install unifi_sysvinit_all.deb && \
+    apt install -f
+
+# 3478 STUN ; 8080 COM ; 8443 GUI/API ; 8843 portal ; 6789 speed test ; 10001 UDP AP discovery ; 1900 L2 discovery
+# 8843 # if using Guest Portal from remote locations
+# https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+EXPOSE 3478/udp 8080/tcp 8443/tcp 6789/tcp 10001/udp 1900/udp
+
+USER unifi
+#VOLUME /usr/lib/unifi/data
+#WORKDIR /usr/lib/unifi
+#CMD ["java", "-Xmx256M", "-jar", "/usr/lib/unifi/lib/ace.jar", "start"]

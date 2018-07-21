@@ -1,0 +1,8 @@
+FROM resin/rpi-raspbian:stretch
+
+
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Bucharest"
+
+RUN apt update -y && apt upgrade -y && \
+    apt install unzip wget && \
+    rm -rf /var/lib/apt/lists/*

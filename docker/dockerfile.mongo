@@ -1,0 +1,10 @@
+FROM danielcoman/base-rpi:latest
+
+RUN groupadd -r mongodb && useradd -r -g mongodb mongodb
+
+RUN apt update -y && apt install -y mongodb-server && \
+    rm -rf /var/lib/apt/lists/*
+
+EXPOSE 27117
+
+USER mongodb
