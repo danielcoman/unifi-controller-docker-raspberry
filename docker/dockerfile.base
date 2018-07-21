@@ -3,6 +3,8 @@ FROM resin/rpi-raspbian:stretch
 
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Bucharest"
 
-RUN apt update -y && apt upgrade -y && \
-    apt install unzip wget && \
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends unzip wget && \
     rm -rf /var/lib/apt/lists/*
