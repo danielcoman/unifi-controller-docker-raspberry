@@ -1,20 +1,20 @@
 version: '3.3'
 services:
-  
+
   base:
     build:
       context: ./docker
       dockerfile: ./dockerfile.base
     image: danielcoman/base-rpi:latest
 
-  mongo:
-    build:
-      context: ./docker
-      dockerfile: ./dockerfile.mongo
-    image: danielcoman/mongo-rpi:latest
+  # mongo:
+  #   build:
+  #     context: ./docker
+  #     dockerfile: ./dockerfile.mongo
+  #   image: danielcoman/mongo-rpi:latest
 
   unifi:
     build:
       context: ./docker
       dockerfile: ./dockerfile.unifi
-    image: danielcoman/unifi-rpi:latest
+    image: danielcoman/unifi-rpi:5.8.30

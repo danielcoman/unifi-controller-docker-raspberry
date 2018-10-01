@@ -2,7 +2,7 @@ version: '3.3'
 services:
 
   unifi:
-    image: danielcoman/unifi-rpi:latest
+    image: danielcoman/unifi-rpi:5.8.30
     command: ["start"]
     volumes:
       - config:/var/lib/unifi

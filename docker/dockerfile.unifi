@@ -3,9 +3,9 @@ FROM danielcoman/base-rpi:latest
 
 RUN groupadd -r unifi && useradd -r -g unifi unifi
 
-ENV UNIFI_VERSION="5.8.24"
+ENV UNIFI_VERSION="5.8.30"
 
-RUN apt-get update -y && apt-get install --no-install-recommends -y oracle-java8-jdk jsvc mongodb-server binutils unzip wget
+RUN apt-get update -y && apt-get install --no-install-recommends -y oracle-java8-jdk jsvc mongodb-server binutils
 
 RUN mkdir -p /tmp/build && \
     cd /tmp/build && \
@@ -14,14 +14,19 @@ RUN mkdir -p /tmp/build && \
     apt-get install -f && \
     rm -rf /var/lib/apt/lists/*
 
+
+RUN mkdir -p /var/lib/unifi/data && ln -s /var/lib/unifi/data /usr/lib/unifi/data && \
+    mkdir -p /var/lib/unifi/logs && ln -s /var/lib/unifi/logs /usr/lib/unifi/logs && \
+    mkdir -p /var/lib/unifi/run  && ln -s /var/lib/unifi/run  /usr/lib/unifi/run  && \
+    mkdir -p /var/lib/unifi/work && ln -s /var/lib/unifi/work /usr/lib/unifi/work
+
 # COPY system.properties /usr/lib/unifi/data/system.properties
 
-EXPOSE 3478/udp 8080/tcp 8443/tcp 6789/tcp 10001/udp 1900/udp
-
-RUN ln -s /var/lib/unifi /usr/lib/unifi/data
-WORKDIR /var/lib/unifi
+WORKDIR /usr/lib/unifi
 
 # USER unifi
+
+EXPOSE 3478/udp 8080/tcp 8443/tcp 6789/tcp 10001/udp 1900/udp
 
 ENTRYPOINT ["/usr/bin/java", "-Xmx512M", "-jar", "/usr/lib/unifi/lib/ace.jar"]
 CMD ["start"]
