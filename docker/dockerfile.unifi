@@ -3,7 +3,7 @@ FROM danielcoman/base-rpi:latest
 
 RUN groupadd -r unifi && useradd -r -g unifi unifi
 
-ENV UNIFI_VERSION="5.10.24"
+ENV UNIFI_VERSION="5.11.39"
 
 RUN apt-get update -y && apt-get install --no-install-recommends -y oracle-java8-jdk jsvc mongodb-server binutils
 
