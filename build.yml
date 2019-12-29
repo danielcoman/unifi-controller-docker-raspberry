@@ -17,4 +17,4 @@ services:
     build:
       context: ./docker
       dockerfile: ./dockerfile.unifi
-    image: danielcoman/unifi-rpi:5.11.39
+    image: danielcoman/unifi-rpi:5.12.35
