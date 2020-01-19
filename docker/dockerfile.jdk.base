@@ -1,4 +1,4 @@
-FROM balenalib/raspberry-pi:buster
+FROM balenalib/raspberry-pi-openjdk:8-stretch
 
 RUN [ "cross-build-start" ]
 

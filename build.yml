@@ -7,6 +7,12 @@ services:
       dockerfile: ./dockerfile.base
     image: danielcoman/base-rpi:latest
 
+  base-jdk:
+    build:
+      context: ./docker
+      dockerfile: ./dockerfile.jdk.base
+    image: danielcoman/base-jdk-rpi:latest
+
   # mongo:
   #   build:
   #     context: ./docker
@@ -17,4 +23,4 @@ services:
     build:
       context: ./docker
       dockerfile: ./dockerfile.unifi
-    image: danielcoman/unifi-rpi:5.12.35
+    image: danielcoman/unifi-rpi:5.12.35-2
