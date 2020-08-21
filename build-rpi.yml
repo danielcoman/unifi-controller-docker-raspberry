@@ -3,8 +3,9 @@ services:
 
   unifi:
     build:
-      context: ./docker
+      context: ./docker-rpi
       dockerfile: ./dockerfile
-    image: danielcoman/unifi:latest
+    image: danielcoman/unifi-rpi:5.13.35
     environment:
       TZ: 'Europe/Bucharest'
+      UNIFI_VERSION: '5.13.35'

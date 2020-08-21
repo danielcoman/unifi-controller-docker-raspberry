@@ -1,13 +1,13 @@
-FROM danielcoman/base-jdk-rpi:latest
-
-
-ENV UNIFI_VERSION="5.12.35"
+FROM balenalib/raspberry-pi-openjdk:8-stretch
 
 RUN [ "cross-build-start" ]
 
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN groupadd -r unifi && useradd -r -g unifi unifi
 
-RUN apt-get update -y && apt-get install --no-install-recommends -y oracle-java8-jdk jsvc mongodb-server binutils && \
+RUN apt-get update -y && apt-get install && \
+    apt-get install --no-install-recommends -y wget oracle-java8-jdk jsvc mongodb-server binutils && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
@@ -16,11 +16,6 @@ RUN mkdir -p /tmp/build && \
     wget -q http://dl.ubnt.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb && \
     dpkg --install unifi_sysvinit_all.deb && \
     rm -rf /tmp/build
-
-RUN mkdir -p /var/lib/unifi/data && ln -s /var/lib/unifi/data /usr/lib/unifi/data && \
-    mkdir -p /var/lib/unifi/logs && ln -s /var/lib/unifi/logs /usr/lib/unifi/logs && \
-    mkdir -p /var/lib/unifi/run  && ln -s /var/lib/unifi/run  /usr/lib/unifi/run  && \
-    mkdir -p /var/lib/unifi/work && ln -s /var/lib/unifi/work /usr/lib/unifi/work
 
 RUN [ "cross-build-end" ]
 
