@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+
+  unifi:
+    image: danielcoman/unifi-rpi:5.14.23
+    build:
+      context: ./docker-rpi
+      dockerfile: ./dockerfile
+      args:
+        TZ: 'Europe/Bucharest'
+        UNIFI_VERSION: '5.14.23'

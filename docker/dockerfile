@@ -1,22 +1,25 @@
 FROM debian:stretch-slim
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ARG TZ
+ARG UNIFI_VERSION
+
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
+
+RUN groupadd -r unifi && useradd -r -g unifi unifi
 
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
 RUN mkdir -p /usr/share/man/man1
 
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install --no-install-recommends -y openjdk-8-jdk && \
+    apt-get install --no-install-recommends -y openjdk-8-jdk jsvc mongodb-server wget binutils curl logrotate && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
-RUN apt-get update && apt-get install -y ca-certificates apt-transport-https gnupg2  && \
-    echo 'deb https://www.ui.com/downloads/unifi/debian stable ubiquiti' | tee /etc/apt/sources.list.d/100-ubnt-unifi.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv 06E85760C0A52C50 && \
-    apt-get clean
-
-RUN apt-get update && apt-get install unifi -y && \
-    apt-get clean
+RUN mkdir -p /tmp/build && \
+    cd /tmp/build && \
+    wget -q http://dl.ubnt.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb && \
+    dpkg --install unifi_sysvinit_all.deb && \
+    rm -rf /tmp/build
 
 WORKDIR /usr/lib/unifi
 

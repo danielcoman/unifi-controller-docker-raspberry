@@ -2,7 +2,7 @@ version: '3.3'
 services:
   unifi:
     container_name: unifi
-    image: danielcoman/unifi:latest
+    image: danielcoman/unifi:5.14.23
     volumes:
       - './unifi/data:/usr/lib/unifi/data'
       - './unifi/logs:/usr/lib/unifi/logs'

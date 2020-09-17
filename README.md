@@ -4,8 +4,8 @@ Run ubiquiti unifi controller in docker on raspberry pi arm or x86-64
 
 Image Build:
 ```bash
-sudo docker-compose -f  build-rpi.yml build
-sudo docker-compose -f  build.yml build
+sudo docker-compose -f  build-rpi.yaml build
+sudo docker-compose -f  build.yaml build
 ```
 
 Run:
