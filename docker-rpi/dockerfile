@@ -1,13 +1,16 @@
 FROM balenalib/raspberry-pi-openjdk:8-stretch
 
+ARG TZ
+ARG UNIFI_VERSION
+
 RUN [ "cross-build-start" ]
 
-RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
 
-RUN groupadd -r unifi && useradd -r -g unifi unifi
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone && \
+    groupadd -r unifi && useradd -r -g unifi unifi
 
 RUN apt-get update -y && apt-get install && \
-    apt-get install --no-install-recommends -y wget oracle-java8-jdk jsvc mongodb-server binutils && \
+    apt-get install --no-install-recommends -y wget oracle-java8-jdk jsvc mongodb-server binutils logrotate && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
@@ -15,6 +18,9 @@ RUN mkdir -p /tmp/build && \
     cd /tmp/build && \
     wget -q http://dl.ubnt.com/unifi/${UNIFI_VERSION}/unifi_sysvinit_all.deb && \
     dpkg --install unifi_sysvinit_all.deb && \
+    ap-get uninstall wget && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
     rm -rf /tmp/build
 
 RUN [ "cross-build-end" ]

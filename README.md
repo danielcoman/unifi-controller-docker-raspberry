@@ -1,6 +1,6 @@
 # unifi-controller-docker
 
-Run ubiquiti unifi controller in docker on raspberry pi arm or x86-64
+Run ubiquiti unifi controller in docker on raspberry pi arm32 or x86-64
 
 Image Build:
 ```bash
